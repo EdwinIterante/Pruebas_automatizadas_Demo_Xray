@@ -30,6 +30,7 @@ jobs:
 
       - name: Ejecutar pruebas en headless
         run: ./gradlew clean test -Dheadless.mode=true
+        continue-on-error: true  #CLAVE para que siga aunque fallen
 
       #Obtener token de Xray
       - name: Get Xray Token
@@ -43,10 +44,10 @@ jobs:
             }')
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
-      # Enviar resultados a Xray
+      #Enviar resultados a Xray
       - name: Upload results to Xray
         run: |
           curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/cucumber" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ steps.xray-auth.outputs.token }}" \
-            --data @target/cucumber.json
+            --data @target/cucumber-reports/Cucumber.json
