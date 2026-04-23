@@ -1,6 +1,5 @@
-name: CI Tests to Xray
+name: CI Tests
 
-# Se ejecuta en cada push a master
 on:
   push:
     branches:
@@ -17,6 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Dar permisos a gradlew
+        run: chmod +x gradlew
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -26,13 +28,5 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: TestSuiteRunner
+      - name: Ejecutar pruebas
         run: ./gradlew clean test
-
-      - name: Upload results to Xray
-        run: |
-          curl -H "Content-Type: application/json" \
-               -H "Authorization: Bearer ${{ secrets.XRAY_TOKEN }}" \
-               -X POST \
-               --data target/cucumber-reports/Cucumber.json \
-               ${{ secrets.JIRA_URL }}/rest/raven/1.0/import/execution/cucumber?projectKey=${{ secrets.PROJECT_KEY }}
