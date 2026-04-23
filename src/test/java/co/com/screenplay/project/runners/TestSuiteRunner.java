@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
         snippets = CucumberOptions.SnippetType.CAMELCASE,
         plugin = {"pretty", "json:target/cucumber-reports/Cucumber.json"},
         monochrome = true,
-        tags = "@TEST_DX-1"
+        tags = "@TEST_DX-3"
 )
 public class TestSuiteRunner {
 }
