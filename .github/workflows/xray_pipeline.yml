@@ -28,41 +28,26 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
 
-      #Ejecuta tests pero NO rompe el pipeline si fallan
       - name: Ejecutar pruebas en headless
         run: ./gradlew clean test -Dheadless.mode=true
-        continue-on-error: true
-
-      #Validar que el JSON existe (debug)
-      - name: Verificar cucumber.json
-        if: always()
-        run: |
-          echo "Buscando archivo cucumber.json..."
-          ls -R
-          if [ -f target/cucumber.json ]; then
-            echo "cucumber.json encontrado"
-          else
-            echo "NO existe cucumber.json"
-          fi
+        continue-on-error: true  #CLAVE para que siga aunque fallen
 
       #Obtener token de Xray
       - name: Get Xray Token
         id: xray-auth
-        if: always()
         run: |
           TOKEN=$(curl -s -X POST "https://xray.cloud.getxray.app/api/v2/authenticate" \
             -H "Content-Type: application/json" \
             -d '{
-              "client_id": "'${{ secrets.XRAY_CLIENT_ID }}'",
-              "client_secret": "'${{ secrets.XRAY_CLIENT_SECRET }}'"
+              "client_id": "${{ secrets.XRAY_CLIENT_ID }}",
+              "client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}"
             }')
           echo "token=$TOKEN" >> $GITHUB_OUTPUT
 
-      #Subir resultados a Xray SIEMPRE
+      #Enviar resultados a Xray
       - name: Upload results to Xray
-        if: always()
         run: |
           curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/cucumber" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ steps.xray-auth.outputs.token }}" \
-            --data @target/cucumber.json
+            --data @target/cucumber-reports/Cucumber.json
