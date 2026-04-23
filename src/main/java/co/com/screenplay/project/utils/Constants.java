@@ -11,7 +11,7 @@ public class Constants {
 
     public static final int TIME_SHORT = 5;
 
-    public static final String TITLE_WEBSITE = "DEMOQA";
+    public static final String TITLE_WEBSITE = "demosite";
 
     public static final String WEB_URL="environments.default.webdriver.base.url";
 

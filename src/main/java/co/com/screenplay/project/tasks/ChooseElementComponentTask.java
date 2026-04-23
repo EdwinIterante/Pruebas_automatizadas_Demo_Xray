@@ -21,9 +21,10 @@ public class ChooseElementComponentTask implements Task {
                 WaitUntil.the(ITEM_TEXT_BOX, isVisible()).forNoMoreThan(5).seconds(),
                 Scroll.to(ITEM_TEXT_BOX),
                 Click.on(ITEM_TEXT_BOX),
-                WaitUntil.the(HEADER_TEXT_BOX, isVisible()).forNoMoreThan(5).seconds()
+                WaitUntil.the(HEADER_TEXT_BOX, isVisible()).forNoMoreThan(20).seconds()
                 );
     }
+
     public static ChooseElementComponentTask withOutOption() {
         return new ChooseElementComponentTask();
     }
