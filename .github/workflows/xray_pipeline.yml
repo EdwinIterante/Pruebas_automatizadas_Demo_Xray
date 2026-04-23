@@ -28,5 +28,5 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Ejecutar pruebas
-        run: ./gradlew clean test
+      - name: Ejecutar pruebas en headless
+        run: ./gradlew clean test -Dheadless.mode=true
