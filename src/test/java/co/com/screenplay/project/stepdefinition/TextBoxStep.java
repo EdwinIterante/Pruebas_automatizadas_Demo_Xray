@@ -34,7 +34,7 @@ public class TextBoxStep {
     @And("diligencia el formulario con información válida")
     public void FormWithValidInformation(){
 
-        TextBoxData data = new TextBoxData();
+        TextBoxData data = new TextBoxData(); //datos de prueba
 
         OnStage.theActorInTheSpotlight().attemptsTo(
                 FormElementTextBoxTask.withData(data)

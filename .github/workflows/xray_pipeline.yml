@@ -1,0 +1,38 @@
+name: CI Tests to Xray
+
+# Se ejecuta en cada push a master
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: TestSuiteRunner
+        run: ./gradlew clean test
+
+      - name: Upload results to Xray
+        run: |
+          curl -H "Content-Type: application/json" \
+               -H "Authorization: Bearer ${{ secrets.XRAY_TOKEN }}" \
+               -X POST \
+               --data target/cucumber-reports/Cucumber.json \
+               ${{ secrets.JIRA_URL }}/rest/raven/1.0/import/execution/cucumber?projectKey=${{ secrets.PROJECT_KEY }}

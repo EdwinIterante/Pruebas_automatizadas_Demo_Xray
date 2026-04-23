@@ -24,6 +24,7 @@ public class ChooseElementComponentTask implements Task {
                 WaitUntil.the(HEADER_TEXT_BOX, isVisible()).forNoMoreThan(5).seconds()
                 );
     }
+
     public static ChooseElementComponentTask withOutOption() {
         return new ChooseElementComponentTask();
     }
