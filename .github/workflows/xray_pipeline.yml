@@ -3,7 +3,7 @@ name: CI Tests
 on:
   push:
     branches:
-      - master
+      - DX-1-HU-1-Funcionalidad-Web-Elementos-Text-Box
   pull_request:
     branches:
       - master
@@ -19,11 +19,11 @@ jobs:
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
